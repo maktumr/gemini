@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Text Generator Gemini </title>
+<style>
+body {
+
+font-family: Arial, sans-serif;
+text-align: left;
+margin: 50px;
+}
+#prompt-text, #output-text {
+
+width: 80%;
+height: 100px;
+margin: 10px;
+}
+#generate-btn, #clear-btn {
+padding: 10px;
+font-size: 16px;
+margin: 5px;
+}
+.my-button {
+display: inline-block;
+padding: 10px 20px;
+font-size: 16px;
+
+background-color: #4CAF50; /* Green */
+border: none;
+color: white;
+text-align: center;
+text-decoration: none;
+cursor: pointer;
+border-radius: 8px;
+transition: background-color 0.3s ease;
+}
+</style>
+</head>
+<body>
+<h1>Text Generator with GEN AI</h1>
+<label>Enter your question here</label> <br>
+<textarea id="prompt-text" placeholder="Enter your prompt here..."></textarea><br>
+<button class="my-button" id="generate Button" onclick="generateOutput()">GO</button><br>
+<textarea id="output-text" rows="4" cols="50" readonly placeholder="Generated text will appear here..."></textarea><br>
+<button class="my-button" id="clearButton" onclick="clearFields ()">Clear</button>
+<button class="my-button" id="downloadButton" onclick="downloadText()">Download</button>
+<script type="importmap">
+{
+"imports": { "@google/generative-ai": "https://esm.run/@google/generative-ai"
+}
+}
+</script>
+<script type="module">
+import {GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+const API_KEY = "your api key  here";
+const genAI = new GoogleGenerativeAI (API_KEY);
+document.addEventListener('DOMContentLoaded', () => {
+const generateButton = document.getElementById('generateButton');
+generateButton.addEventListener('click', generateOutput);
+const clearButton = document.getElementById('clearButton');
+clearButton.addEventListener('click', clearFields);
+const downloadButton = document.getElementById('downloadButton');
+downloadButton.addEventListener('click', downloadText);
+});
+async function generateOutput()
+const inputText = document.getElementById('prompt-text').value;
+const outputTextArea = document.getElementById('output-text');
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+const result = await model.generateContent(inputText);
+const response = await result.response;
+const generatedText = response.text();
+outputTextArea.value = generatedText;
+
+}
+function clearFields()
+{
+document.getElementById('prompt-text').value='';
+document.getElementById('output-text').value='';
+}
+function downloadText()
+{
+
+var text = document.getElementById("output-text").value;
+console.log(text)
+// Create a blob with the text content
+var blob = new Blob ([text], { type: "text/plain" });
+// Create an anchor element
+var anchor = document.createElement("a");
+anchor.download = "text.txt"; // Set the file name for the download
+anchor.href = window.URL.createObjectURL(blob);
+anchor.click();
+</script>
+</body>
+<br>
+<br>
+<br>
+<br>
+<footer>
+</footer>
+</html>
